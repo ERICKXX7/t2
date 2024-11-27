@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Cadastro</title>
+    <script src="js/validation.js" defer></script>
+    <style>
+      :root {
+        --site-green: #0a9c45;
+        --light-gray: #f4f4f4;
+        --dark-gray: #333;
+        --border-radius: 8px;
+      }
+      
+      @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,600,400italic);
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-font-smoothing: antialiased;
+        -o-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      body {
+        font-family: "Roboto", Helvetica, Arial, sans-serif;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        color: var(--dark-gray);
+      }
+
+      .container {
+        max-width: 500px;
+        width: 100%;
+        padding: 20px;
+        background: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: var(--border-radius);
+      }
+
+      #contact h3 {
+        font-size: 26px;
+        font-weight: 600;
+        text-align: center;
+        color: var(--site-green);
+        margin-bottom: 20px;
+      }
+
+      fieldset {
+        border: none;
+        margin-bottom: 15px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: var(--border-radius);
+        font-size: 16px;
+        transition: border 0.3s ease;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--site-green);
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: #888;
+      }
+
+      textarea {
+        resize: none;
+        height: 100px;
+      }
+
+      .error {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--site-green);
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #43a047;
+      }
+
+      button:active {
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+
+      #contact button:disabled {
+        background-color: #b0b0b0;
+        cursor: not-allowed;
+      }
+
+      .success {
+        color: green;
+        font-size: 12px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <form id="contact" action="" method="post">
+        <h3>Formulário de Cadastro</h3>
+
+        <fieldset>
+          <input placeholder="Insira o Nome" type="text" id="nome" required autofocus>
+        </fieldset>
+
+        <fieldset>
+          <input placeholder="Endereço de Email" type="email" id="email" required onkeyup="validaEmail(event)">
+          <p id="email-error" class="error"></p>
+        </fieldset>
+
+        <fieldset>
+          <input placeholder="(98) 98888-8888" type="text" id="telefone" required oninput="validaTelefone(event)">
+          <p id="telefone-error" class="error"></p>
+        </fieldset>
+
+        <fieldset>
+          <input placeholder="000.000.000-00" type="text" id="cpf" required oninput="validaCPF(event)">
+          <p id="cpf-error" class="error"></p>
+        </fieldset>
+
+        <fieldset>
+          <input placeholder="Endereço" type="text" id="endereco" required>
+          <p id="endereco-error" class="error"></p>
+        </fieldset>
+
+        <fieldset>
+          <input placeholder="00000,00" type="text" id="renda" required oninput="validaRenda(event)">
+          <p id="renda-error" class="error"></p>
+        </fieldset>
+
+        <fieldset>
+          <button type="submit" id="contact-submit" data-submit="...Enviando">Enviar</button>
+        </fieldset>
+      </form>
+    </div>
+
+    <script>
+      // Exemplo de validação simples (adapte conforme sua necessidade)
+      function validaEmail(event) {
+        const email = document.getElementById('email');
+        const emailError = document.getElementById('email-error');
+        const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+        if (!regex.test(email.value)) {
+          emailError.textContent = 'Por favor, insira um e-mail válido.';
+        } else {
+          emailError.textContent = '';
+        }
+      }
+
+      function validaTelefone(event) {
+        const telefone = document.getElementById('telefone');
+        const telefoneError = document.getElementById('telefone-error');
+        const regex = /^\(\d{2}\)\s\d{4,5}-\d{4}$/;
+
+        if (!regex.test(telefone.value)) {
+          telefoneError.textContent = 'Formato de telefone inválido. Exemplo: (99) 99999-9999';
+        } else {
+          telefoneError.textContent = '';
+        }
+      }
+
+      function validaCPF(event) {
+        const cpf = document.getElementById('cpf');
+        const cpfError = document.getElementById('cpf-error');
+        const regex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+
+        if (!regex.test(cpf.value)) {
+          cpfError.textContent = 'Formato de CPF inválido. Exemplo: 000.000.000-00';
+        } else {
+          cpfError.textContent = '';
+        }
+      }
+
+      function validaRenda(event) {
+        const renda = document.getElementById('renda');
+        const rendaError = document.getElementById('renda-error');
+        const regex = /^\d+(\.\d{1,2})?$/;
+
+        if (!regex.test(renda.value)) {
+          rendaError.textContent = 'Por favor, insira um valor válido para a renda.';
+        } else {
+          rendaError.textContent = '';
+        }
+      }
+
+      function validaEndereco(event) {
+        const endereco = document.getElementById('endereco');
+        const enderecoError = document.getElementById('endereco-error');
+
+        if (endereco.value.trim() === '') {
+          enderecoError.textContent = 'Endereço é obrigatório.';
+        } else {
+          enderecoError.textContent = '';
+        }
+      }
+    </script>
+  </body>
+</html>
